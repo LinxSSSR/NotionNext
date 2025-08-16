@@ -16,8 +16,8 @@ const Footer = (props) => {
 
   // 计算运行时间
   useEffect(() => {
-    if (CONFIG.FOOTER.SHOW_RUNTIME) {
-      const startDate = new Date(CONFIG.FOOTER.RUNTIME_START_DATE)
+    if (CONFIG.HEO_FOOTER_SHOW_RUNTIME) {
+      const startDate = new Date(CONFIG.HEO_FOOTER_RUNTIME_START_DATE)
 
       const updateRuntime = () => {
         const now = new Date()
@@ -49,10 +49,9 @@ const Footer = (props) => {
             </div>
             <p className="text-gray-400 mb-4">{BLOG.DESCRIPTION || "基于NotionNext的现代化博客主题"}</p>
 
-            {/* 社交链接 */}
-            {CONFIG.FOOTER.SHOW_SOCIAL_LINKS && (
+            {CONFIG.HEO_FOOTER_SHOW_SOCIAL_LINKS && CONFIG.HEO_FOOTER_SOCIAL_LINKS && (
               <div className="flex space-x-4">
-                {CONFIG.FOOTER.SOCIAL_LINKS.map((link, index) => (
+                {CONFIG.HEO_FOOTER_SOCIAL_LINKS.map((link, index) => (
                   <a
                     key={index}
                     href={link.url}
@@ -103,7 +102,7 @@ const Footer = (props) => {
           <div>
             <h3 className="text-lg font-semibold mb-4">网站统计</h3>
             <ul className="space-y-2 text-gray-400">
-              {CONFIG.FOOTER.SHOW_RUNTIME && (
+              {CONFIG.HEO_FOOTER_SHOW_RUNTIME && (
                 <li>
                   <i className="fas fa-clock mr-2"></i>
                   运行时间: {runtime}
@@ -123,8 +122,8 @@ const Footer = (props) => {
 
         {/* 版权信息 */}
         <div className="border-t border-gray-800 mt-8 pt-8 text-center">
-          <p className="text-gray-400">{CONFIG.FOOTER.COPYRIGHT}</p>
-          {CONFIG.FOOTER.ICP && <p className="text-gray-500 text-sm mt-2">{CONFIG.FOOTER.ICP}</p>}
+          <p className="text-gray-400">{CONFIG.HEO_FOOTER_COPYRIGHT}</p>
+          {CONFIG.HEO_FOOTER_ICP && <p className="text-gray-500 text-sm mt-2">{CONFIG.HEO_FOOTER_ICP}</p>}
         </div>
       </div>
     </footer>

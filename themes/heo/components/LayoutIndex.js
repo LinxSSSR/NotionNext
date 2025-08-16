@@ -52,21 +52,21 @@ const LayoutIndex = (props) => {
  */
 const Sidebar = ({ categories, tags, posts }) => {
   const { locale } = useGlobal()
-  const recentPosts = posts?.slice(0, CONFIG.SIDEBAR.RECENT_POSTS_COUNT) || []
+  const recentPosts = posts?.slice(0, CONFIG.HEO_SIDEBAR_RECENT_POSTS_COUNT) || []
 
   return (
     <div className="space-y-6">
       {/* 个人资料卡 */}
-      {CONFIG.SIDEBAR.SHOW_PROFILE_CARD && (
+      {CONFIG.HEO_SIDEBAR_SHOW_PROFILE_CARD && (
         <div className="heo-sidebar-card text-center">
           <img src={BLOG.AVATAR || "/avatar.jpg"} alt="Avatar" className="heo-profile-avatar mx-auto" />
           <h3 className="heo-profile-name">{BLOG.AUTHOR}</h3>
           <p className="heo-profile-bio">{BLOG.BIO || "分享技术，记录生活"}</p>
 
           {/* 社交链接 */}
-          {CONFIG.FOOTER.SHOW_SOCIAL_LINKS && (
+          {CONFIG.HEO_FOOTER_SHOW_SOCIAL_LINKS && CONFIG.HEO_FOOTER_SOCIAL_LINKS && (
             <div className="heo-social-links justify-center">
-              {CONFIG.FOOTER.SOCIAL_LINKS.map((link, index) => (
+              {CONFIG.HEO_FOOTER_SOCIAL_LINKS.map((link, index) => (
                 <a key={index} href={link.url} className="heo-social-link" target="_blank" rel="noopener noreferrer">
                   <i className={link.icon}></i>
                 </a>
@@ -77,7 +77,7 @@ const Sidebar = ({ categories, tags, posts }) => {
       )}
 
       {/* 分类卡片 */}
-      {CONFIG.SIDEBAR.SHOW_CATEGORY_CARD && categories && (
+      {CONFIG.HEO_SIDEBAR_SHOW_CATEGORY_CARD && categories && (
         <div className="heo-sidebar-card">
           <h3 className="text-lg font-semibold mb-4">文章分类</h3>
           <div className="space-y-2">
@@ -96,7 +96,7 @@ const Sidebar = ({ categories, tags, posts }) => {
       )}
 
       {/* 标签云 */}
-      {CONFIG.SIDEBAR.SHOW_TAG_CLOUD && tags && (
+      {CONFIG.HEO_SIDEBAR_SHOW_TAG_CLOUD && tags && (
         <div className="heo-sidebar-card">
           <h3 className="text-lg font-semibold mb-4">标签云</h3>
           <div className="heo-tag-cloud">
@@ -110,7 +110,7 @@ const Sidebar = ({ categories, tags, posts }) => {
       )}
 
       {/* 最新文章 */}
-      {CONFIG.SIDEBAR.SHOW_RECENT_POSTS && recentPosts.length > 0 && (
+      {CONFIG.HEO_SIDEBAR_SHOW_RECENT_POSTS && recentPosts.length > 0 && (
         <div className="heo-sidebar-card">
           <h3 className="text-lg font-semibold mb-4">最新文章</h3>
           <div className="space-y-3">

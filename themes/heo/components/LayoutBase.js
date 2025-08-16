@@ -14,32 +14,39 @@ import Footer from "./Footer"
  * @returns
  */
 const LayoutBase = (props) => {
-  const { children, meta, siteInfo } = props
-  const { locale, isDarkMode } = useGlobal()
+  const { children, meta = {}, siteInfo = {} } = props
+  const { locale = {}, isDarkMode = false } = useGlobal() || {}
+
+  const pageTitle = meta?.title || siteInfo?.title || BLOG?.TITLE || "Blog"
+  const pageDescription = meta?.description || siteInfo?.description || BLOG?.DESCRIPTION || ""
+  const pageKeywords = meta?.keywords || BLOG?.KEYWORDS || ""
+  const pageImage = meta?.image || BLOG?.AVATAR || ""
+  const siteFavicon = BLOG?.FAVICON || "/favicon.ico"
+  const siteAuthor = BLOG?.AUTHOR || ""
 
   return (
     <>
       <Head>
-        <title>{meta?.title || BLOG.TITLE}</title>
-        <meta name="description" content={meta?.description || BLOG.DESCRIPTION} />
-        <meta name="keywords" content={meta?.keywords || BLOG.KEYWORDS} />
-        <meta name="author" content={BLOG.AUTHOR} />
+        <title>{pageTitle}</title>
+        <meta name="description" content={pageDescription} />
+        <meta name="keywords" content={pageKeywords} />
+        <meta name="author" content={siteAuthor} />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
         {/* Open Graph */}
-        <meta property="og:title" content={meta?.title || BLOG.TITLE} />
-        <meta property="og:description" content={meta?.description || BLOG.DESCRIPTION} />
-        <meta property="og:image" content={meta?.image || BLOG.AVATAR} />
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={pageDescription} />
+        <meta property="og:image" content={pageImage} />
         <meta property="og:type" content="website" />
 
         {/* Twitter Card */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={meta?.title || BLOG.TITLE} />
-        <meta name="twitter:description" content={meta?.description || BLOG.DESCRIPTION} />
-        <meta name="twitter:image" content={meta?.image || BLOG.AVATAR} />
+        <meta name="twitter:title" content={pageTitle} />
+        <meta name="twitter:description" content={pageDescription} />
+        <meta name="twitter:image" content={pageImage} />
 
         {/* Favicon */}
-        <link rel="icon" href={BLOG.FAVICON} />
+        <link rel="icon" href={siteFavicon} />
 
         {/* Font Awesome */}
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
@@ -56,9 +63,9 @@ const LayoutBase = (props) => {
       <div id="theme-heo-modern" className={`min-h-screen ${isDarkMode ? "dark" : ""}`}>
         <div className="heo-bg-gradient">
           {/* 顶部通知栏 */}
-          {CONFIG.NOTICE_BAR?.ENABLE && (
+          {CONFIG?.NOTICE_BAR?.ENABLE && CONFIG?.NOTICE_BAR?.TEXT && (
             <div className="bg-blue-600 text-white text-center py-2 px-4">
-              <a href={CONFIG.NOTICE_BAR.URL} className="text-sm hover:underline">
+              <a href={CONFIG.NOTICE_BAR.URL || "#"} className="text-sm hover:underline">
                 {CONFIG.NOTICE_BAR.TEXT}
               </a>
             </div>
