@@ -4,8 +4,8 @@ import { siteConfig } from "@/lib/config"
 import CONFIG from "./config"
 
 export const Style = () => {
-  const primaryColor = siteConfig("HEO_MODERN_PRIMARY_COLOR", "#3b82f6", CONFIG)
-  const accentColor = siteConfig("HEO_MODERN_ACCENT_COLOR", "#10b981", CONFIG)
+  const primaryColor = siteConfig("HEO_PRIMARY_COLOR", "#3b82f6", CONFIG)
+  const accentColor = siteConfig("HEO_ACCENT_COLOR", "#10b981", CONFIG)
 
   return (
     <style jsx global>{`
