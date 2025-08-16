@@ -48,6 +48,20 @@ const CONFIG = {
   // 颜色主题
   HEO_MODERN_PRIMARY_COLOR: "#3b82f6", // 主色调
   HEO_MODERN_ACCENT_COLOR: "#10b981", // 强调色
+
+  // 页脚配置
+  FOOTER: {
+    SHOW_RUNTIME: true, // 显示运行时间
+    RUNTIME_START_DATE: "2024-01-01", // 网站开始运行日期
+    SHOW_SOCIAL_LINKS: true, // 显示社交链接
+    SOCIAL_LINKS: [
+      { icon: "fab fa-github", url: "https://github.com" },
+      { icon: "fab fa-twitter", url: "https://twitter.com" },
+      { icon: "fas fa-envelope", url: "mailto:contact@example.com" },
+    ],
+    COPYRIGHT: "© 2024 HeoNext Blog. All rights reserved.",
+    ICP: "", // 备案号
+  },
 }
 
 export default CONFIG
