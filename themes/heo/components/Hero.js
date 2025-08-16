@@ -8,15 +8,15 @@ import CONFIG from "../config"
  * 英雄区组件
  */
 const Hero = (props) => {
-  const { siteInfo } = props
-  const { locale } = useGlobal()
+  const { siteInfo = {} } = props || {}
+  const { locale } = useGlobal() || {}
 
-  const heroEnable = siteConfig("HEO_MODERN_HERO_ENABLE", true, CONFIG)
-  const title1 = siteConfig("HEO_MODERN_HERO_TITLE_1", "现代化", CONFIG)
-  const title2 = siteConfig("HEO_MODERN_HERO_TITLE_2", "博客体验", CONFIG)
-  const title3 = siteConfig("HEO_MODERN_HERO_TITLE_3", "HEO MODERN", CONFIG)
-  const subtitle = siteConfig("HEO_MODERN_HERO_SUBTITLE", "基于NotionNext的现代化主题", CONFIG)
-  const description = siteConfig("HEO_MODERN_HERO_DESCRIPTION", "融合现代设计理念，提供优雅的阅读体验", CONFIG)
+  const heroEnable = siteConfig("HEO_HOME_BANNER_ENABLE", true, CONFIG)
+  const title1 = siteConfig("HEO_HERO_TITLE_1", "现代化", CONFIG)
+  const title2 = siteConfig("HEO_HERO_TITLE_2", "博客体验", CONFIG)
+  const title3 = siteConfig("HEO_HERO_TITLE_3", "HEO MODERN", CONFIG)
+  const subtitle = siteConfig("HEO_HERO_SUBTITLE", "基于NotionNext的现代化主题", CONFIG)
+  const description = siteConfig("HEO_HERO_DESCRIPTION", "融合现代设计理念，提供优雅的阅读体验", CONFIG)
 
   if (!heroEnable) return null
 
