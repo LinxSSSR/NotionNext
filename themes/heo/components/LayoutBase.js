@@ -4,10 +4,9 @@ import { useGlobal } from "@/lib/global"
 import Head from "next/head"
 import BLOG from "@/blog.config"
 import CONFIG from "../config"
-import STYLES from "../style"
+import { Style } from "../style"
 import Header from "./Header"
 import Footer from "./Footer"
-import { useEffect } from "react"
 
 /**
  * 基础布局组件
@@ -17,17 +16,6 @@ import { useEffect } from "react"
 const LayoutBase = (props) => {
   const { children, meta, siteInfo } = props
   const { locale, isDarkMode } = useGlobal()
-
-  // 注入自定义样式
-  useEffect(() => {
-    const styleElement = document.createElement("style")
-    styleElement.innerHTML = STYLES
-    document.head.appendChild(styleElement)
-
-    return () => {
-      document.head.removeChild(styleElement)
-    }
-  }, [])
 
   return (
     <>
@@ -63,10 +51,12 @@ const LayoutBase = (props) => {
         />
       </Head>
 
-      <div className={`min-h-screen ${isDarkMode ? "dark" : ""}`}>
+      <Style />
+
+      <div id="theme-heo-modern" className={`min-h-screen ${isDarkMode ? "dark" : ""}`}>
         <div className="heo-bg-gradient">
           {/* 顶部通知栏 */}
-          {CONFIG.NOTICE_BAR.ENABLE && (
+          {CONFIG.NOTICE_BAR?.ENABLE && (
             <div className="bg-blue-600 text-white text-center py-2 px-4">
               <a href={CONFIG.NOTICE_BAR.URL} className="text-sm hover:underline">
                 {CONFIG.NOTICE_BAR.TEXT}
