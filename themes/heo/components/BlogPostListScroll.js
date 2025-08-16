@@ -21,17 +21,16 @@ const BlogPostListScroll = ({ posts = [] }) => {
   }
 
   return (
-    <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
+    <div className="w-full px-6 sm:px-8 lg:px-12 xl:px-16 2xl:px-24">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
         {posts.map((post, index) => (
           <article
             key={post.id}
-            className="bg-white rounded-xl overflow-hidden transition-all duration-300 cursor-pointer shadow-sm hover:shadow-lg hover:-translate-y-1"
+            className="bg-white rounded-xl overflow-hidden transition-all duration-300 cursor-pointer shadow-sm hover:shadow-lg hover:-translate-y-1 p-0"
             style={{ animationDelay: `${index * 0.1}s` }}
           >
             <Link href={`/${post.slug}`}>
               <div className="flex flex-col h-full">
-                {/* 文章封面 */}
                 {showCover && post.pageCoverThumbnail && (
                   <div className="relative overflow-hidden">
                     <LazyImage
@@ -42,17 +41,13 @@ const BlogPostListScroll = ({ posts = [] }) => {
                   </div>
                 )}
 
-                {/* 文章内容 */}
                 <div className="p-4 flex-1 flex flex-col">
-                  {/* 文章标题 */}
                   <h2 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2 flex-1">{post.title}</h2>
 
-                  {/* 文章摘要 */}
                   {showSummary && post.summary && (
                     <p className="text-sm text-gray-600 mb-3 line-clamp-3">{post.summary}</p>
                   )}
 
-                  {/* 文章元信息 */}
                   <div className="flex items-center justify-between text-xs text-gray-500 mt-auto">
                     <div className="flex items-center space-x-2">
                       {post.category && (

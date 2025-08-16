@@ -1,68 +1,51 @@
-import { useGlobal } from '@/lib/global'
-import SmartLink from '@/components/SmartLink'
-import { useEffect, useRef } from 'react'
-import Card from './Card'
-import SearchInput from './SearchInput'
-import TagItemMini from './TagItemMini'
+"use client"
+
+import { useState } from "react"
+import { useRouter } from "next/router"
 
 /**
- * 搜索页面的导航
- * @param {*} props
- * @returns
+ * 搜索导航组件
  */
-export default function SearchNav(props) {
-  const { tagOptions, categoryOptions } = props
-  const cRef = useRef(null)
-  const { locale } = useGlobal()
-  useEffect(() => {
-    // 自动聚焦到搜索框
-    cRef?.current?.focus()
-  }, [])
+const SearchNav = ({ keyword }) => {
+  const [searchTerm, setSearchTerm] = useState(keyword || "")
+  const router = useRouter()
 
-  return <>
-    <div className="my-6 px-2">
-        <SearchInput cRef={cRef} {...props} />
-        {/* 分类 */}
-        <Card className="w-full mt-4 bg-white dark:bg-[#1a191d]">
-            <div className="dark:text-gray-200 mb-5 mx-3 text-3xl">
-                {locale.COMMON.CATEGORY}:
-            </div>
-            <div id="category-list" className="duration-200 flex flex-wrap mx-8">
-                {categoryOptions?.map(category => {
-                  return (
-                      <SmartLink
-                          key={category.name}
-                          href={`/category/${category.name}`}
-                          passHref
-                          legacyBehavior>
-                          <div
-                              className={
-                                  ' duration-300 dark:hover:text-white dark:text-gray-200 rounded-2xl px-3 cursor-pointer py-1 hover:bg-indigo-600 dark:hover:bg-yellow-600 hover:text-white'
-                              }
-                          >
-                              <i className="mr-4 fas fa-folder" />
-                              {category.name}({category.count})
-                          </div>
-                      </SmartLink>
-                  )
-                })}
-            </div>
-        </Card>
-        {/* 标签 */}
-        <Card className="w-full mt-4 bg-white dark:bg-[#1a191d]">
-            <div className="dark:text-gray-200 mb-5 ml-4 text-3xl">
-                {locale.COMMON.TAGS}:
-            </div>
-            <div id="tags-list" className="duration-200 flex flex-wrap ml-8">
-                {tagOptions?.map(tag => {
-                  return (
-                        <div key={tag.name} className="p-2">
-                            <TagItemMini key={tag.name} tag={tag} />
-                        </div>
-                  )
-                })}
-            </div>
-        </Card>
+  const handleSearch = (e) => {
+    e.preventDefault()
+    if (searchTerm.trim()) {
+      router.push(`/search?s=${encodeURIComponent(searchTerm.trim())}`)
+    }
+  }
+
+  return (
+    <div className="w-full px-6 sm:px-8 lg:px-12 xl:px-16 2xl:px-24 py-8">
+      <div className="max-w-2xl mx-auto">
+        <h1 className="text-3xl font-bold text-center mb-8">搜索文章</h1>
+
+        <form onSubmit={handleSearch} className="relative">
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="输入关键词搜索..."
+            className="w-full px-6 py-4 text-lg border-2 border-gray-200 rounded-full focus:border-blue-500 focus:outline-none transition-colors"
+          />
+          <button
+            type="submit"
+            className="absolute right-2 top-2 px-6 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors"
+          >
+            搜索
+          </button>
+        </form>
+
+        {keyword && (
+          <div className="mt-6 text-center text-gray-600">
+            搜索结果：<span className="font-semibold">"{keyword}"</span>
+          </div>
+        )}
+      </div>
     </div>
-</>
+  )
 }
+
+export default SearchNav

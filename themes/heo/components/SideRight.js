@@ -1,77 +1,78 @@
-import Live2D from '@/components/Live2D'
-import dynamic from 'next/dynamic'
-import { AnalyticsCard } from './AnalyticsCard'
-import Card from './Card'
-import Catalog from './Catalog'
-import { InfoCard } from './InfoCard'
-import LatestPostsGroupMini from './LatestPostsGroupMini'
-import TagGroups from './TagGroups'
-import TouchMeCard from './TouchMeCard'
+"use client"
 
-const FaceBookPage = dynamic(
-  () => {
-    let facebook = <></>
-    try {
-      facebook = import('@/components/FacebookPage')
-    } catch (err) {
-      console.error(err)
-    }
-    return facebook
-  },
-  { ssr: false }
-)
+import { useGlobal } from "@/lib/global"
+import { siteConfig } from "@/lib/config"
+import CONFIG from "../config"
 
 /**
- * Hexo主题右侧栏
- * @param {*} props
- * @returns
+ * 右侧边栏组件
  */
-export default function SideRight(props) {
-  const { post, tagOptions, currentTag, rightAreaSlot } = props
-
-  // 只摘取标签的前60个，防止右侧过长
-  const sortedTags = tagOptions?.slice(0, 60) || []
+const SideRight = ({ latestPosts = [], tags = [], categories = [] }) => {
+  const { locale } = useGlobal()
+  const showLatestPosts = siteConfig("HEO_MODERN_WIDGET_LATEST_POSTS", true, CONFIG)
+  const showAnalytics = siteConfig("HEO_MODERN_WIDGET_ANALYTICS", true, CONFIG)
 
   return (
-    <div id='sideRight' className='hidden xl:block w-72 space-y-4 h-full'>
-      <InfoCard {...props} className='w-72 wow fadeInUp' />
-
-      <div className='sticky top-20 space-y-4'>
-        {/* 文章页显示目录 */}
-        {post && post.toc && post.toc.length > 0 && (
-          <Card className='bg-white dark:bg-[#1e1e1e] wow fadeInUp'>
-            <Catalog toc={post.toc} />
-          </Card>
-        )}
-
-        {/* 联系交流群 */}
-        <div className='wow fadeInUp'>
-          <TouchMeCard />
+    <aside className="w-full lg:w-80 space-y-6">
+      {/* 最新文章 */}
+      {showLatestPosts && latestPosts.length > 0 && (
+        <div className="bg-white rounded-xl p-6 shadow-sm">
+          <h3 className="text-lg font-semibold mb-4">最新文章</h3>
+          <div className="space-y-3">
+            {latestPosts.slice(0, 5).map((post) => (
+              <a
+                key={post.id}
+                href={`/${post.slug}`}
+                className="block p-3 rounded-lg hover:bg-gray-50 transition-colors"
+              >
+                <h4 className="text-sm font-medium text-gray-900 line-clamp-2 mb-1">{post.title}</h4>
+                <p className="text-xs text-gray-500">{post.publishDay}</p>
+              </a>
+            ))}
+          </div>
         </div>
+      )}
 
-        {/* 最新文章列表 */}
-        <div
-          className={
-            'border wow fadeInUp  hover:border-indigo-600  dark:hover:border-yellow-600 duration-200 dark:border-gray-700 dark:bg-[#1e1e1e] dark:text-white rounded-xl lg:p-6 p-4 hidden lg:block bg-white'
-          }>
-          <LatestPostsGroupMini {...props} />
+      {/* 热门标签 */}
+      {tags.length > 0 && (
+        <div className="bg-white rounded-xl p-6 shadow-sm">
+          <h3 className="text-lg font-semibold mb-4">热门标签</h3>
+          <div className="flex flex-wrap gap-2">
+            {tags.slice(0, 20).map((tag) => (
+              <a
+                key={tag.name}
+                href={`/tag/${tag.name}`}
+                className="px-3 py-1 bg-gray-100 hover:bg-blue-100 text-sm text-gray-700 hover:text-blue-600 rounded-full transition-colors"
+              >
+                {tag.name}
+              </a>
+            ))}
+          </div>
         </div>
+      )}
 
-        {rightAreaSlot}
-
-        <FaceBookPage />
-        <Live2D />
-
-        {/* 标签和成绩 */}
-        <Card
-          className={
-            'bg-white dark:bg-[#1e1e1e] dark:text-white hover:border-indigo-600  dark:hover:border-yellow-600 duration-200'
-          }>
-          <TagGroups tags={sortedTags} currentTag={currentTag} />
-          <hr className='mx-1 flex border-dashed relative my-4' />
-          <AnalyticsCard {...props} />
-        </Card>
-      </div>
-    </div>
+      {/* 统计信息 */}
+      {showAnalytics && (
+        <div className="bg-white rounded-xl p-6 shadow-sm">
+          <h3 className="text-lg font-semibold mb-4">网站统计</h3>
+          <div className="space-y-3">
+            <div className="flex justify-between">
+              <span className="text-gray-600">文章总数</span>
+              <span className="font-semibold">{latestPosts.length || 0}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-600">分类数量</span>
+              <span className="font-semibold">{categories.length || 0}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-600">标签数量</span>
+              <span className="font-semibold">{tags.length || 0}</span>
+            </div>
+          </div>
+        </div>
+      )}
+    </aside>
   )
 }
+
+export default SideRight

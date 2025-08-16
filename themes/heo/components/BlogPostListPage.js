@@ -1,48 +1,67 @@
-import { siteConfig } from '@/lib/config'
-import { useGlobal } from '@/lib/global'
-import CONFIG from '../config'
-import BlogPostCard from './BlogPostCard'
-import BlogPostListEmpty from './BlogPostListEmpty'
-import PaginationNumber from './PaginationNumber'
+"use client"
+
+import { useGlobal } from "@/lib/global"
+import BlogPostListScroll from "./BlogPostListScroll"
 
 /**
- * 文章列表分页表格
- * @param page 当前页
- * @param posts 所有文章
- * @param tags 所有标签
- * @returns {JSX.Element}
- * @constructor
+ * 博客列表分页组件
  */
-const BlogPostListPage = ({ page = 1, posts = [], postCount, siteInfo }) => {
-  const { NOTION_CONFIG } = useGlobal()
-  const POSTS_PER_PAGE = siteConfig('POSTS_PER_PAGE', 12, NOTION_CONFIG)
-  const totalPage = Math.ceil(postCount / POSTS_PER_PAGE)
-  const showPagination = postCount >= POSTS_PER_PAGE
-  const POST_TWO_COLS = siteConfig('HEO_HOME_POST_TWO_COLS', true, CONFIG)
-  if (!posts || posts.length === 0 || page > totalPage) {
-    return <BlogPostListEmpty />
-  } else {
-    return (
-      <div id='container' className='w-full'>
-        {/* 文章列表 */}
-        <div
-          className={`${POST_TWO_COLS && '2xl:grid 2xl:grid-cols-2'} grid-cols-1 gap-5`}>
-          {posts?.map(post => (
-            <BlogPostCard
-              index={posts.indexOf(post)}
-              key={post.id}
-              post={post}
-              siteInfo={siteInfo}
-            />
-          ))}
-        </div>
+const BlogPostListPage = ({ posts = [], currentPage = 1, totalPages = 1 }) => {
+  const { locale } = useGlobal()
 
-        {showPagination && (
-          <PaginationNumber page={page} totalPage={totalPage} />
-        )}
-      </div>
-    )
-  }
+  return (
+    <div>
+      {/* 文章列表 */}
+      <BlogPostListScroll posts={posts} />
+
+      {/* 分页导航 */}
+      {totalPages > 1 && (
+        <div className="flex justify-center mt-12">
+          <div className="flex items-center space-x-2">
+            {/* 上一页 */}
+            <button
+              disabled={currentPage <= 1}
+              className="px-4 py-2 border border-gray-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors"
+            >
+              上一页
+            </button>
+
+            {/* 页码 */}
+            {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+              const page = i + 1
+              return (
+                <button
+                  key={page}
+                  className={`px-4 py-2 rounded-lg transition-colors ${
+                    page === currentPage ? "bg-blue-600 text-white" : "border border-gray-300 hover:bg-gray-50"
+                  }`}
+                >
+                  {page}
+                </button>
+              )
+            })}
+
+            {totalPages > 5 && (
+              <>
+                <span className="px-2 text-gray-400">...</span>
+                <button className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                  {totalPages}
+                </button>
+              </>
+            )}
+
+            {/* 下一页 */}
+            <button
+              disabled={currentPage >= totalPages}
+              className="px-4 py-2 border border-gray-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors"
+            >
+              下一页
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  )
 }
 
 export default BlogPostListPage
