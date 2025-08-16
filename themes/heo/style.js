@@ -133,3 +133,5 @@ export const Style = () => {
     `}</style>
   )
 }
+
+export default Style
