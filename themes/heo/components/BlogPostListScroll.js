@@ -21,48 +21,56 @@ const BlogPostListScroll = ({ posts = [] }) => {
   }
 
   return (
-    <div className="heo-modern-grid">
-      {posts.map((post, index) => (
-        <article
-          key={post.id}
-          className="heo-modern-post-card heo-modern-fade-in"
-          style={{ animationDelay: `${index * 0.1}s` }}
-        >
-          <Link href={`/${post.slug}`}>
-            <div>
-              {/* 文章封面 */}
-              {showCover && post.pageCoverThumbnail && (
-                <div className="relative overflow-hidden">
-                  <LazyImage src={post.pageCoverThumbnail} alt={post.title} className="heo-modern-post-image" />
-                </div>
-              )}
-
-              {/* 文章内容 */}
-              <div className="heo-modern-post-content">
-                {/* 文章标题 */}
-                <h2 className="heo-modern-post-title">{post.title}</h2>
-
-                {/* 文章摘要 */}
-                {showSummary && post.summary && <p className="heo-modern-post-summary">{post.summary}</p>}
-
-                {/* 文章元信息 */}
-                <div className="heo-modern-post-meta">
-                  <div className="flex items-center space-x-4">
-                    {post.category && (
-                      <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs">{post.category}</span>
-                    )}
-                    <time dateTime={post.publishDay}>{post.publishDay}</time>
+    <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
+        {posts.map((post, index) => (
+          <article
+            key={post.id}
+            className="bg-white rounded-xl overflow-hidden transition-all duration-300 cursor-pointer shadow-sm hover:shadow-lg hover:-translate-y-1"
+            style={{ animationDelay: `${index * 0.1}s` }}
+          >
+            <Link href={`/${post.slug}`}>
+              <div className="flex flex-col h-full">
+                {/* 文章封面 */}
+                {showCover && post.pageCoverThumbnail && (
+                  <div className="relative overflow-hidden">
+                    <LazyImage
+                      src={post.pageCoverThumbnail}
+                      alt={post.title}
+                      className="w-full aspect-video object-cover"
+                    />
                   </div>
+                )}
 
-                  <div className="flex items-center space-x-2 text-xs">
-                    {post.readTime && <span>{post.readTime} min read</span>}
+                {/* 文章内容 */}
+                <div className="p-4 flex-1 flex flex-col">
+                  {/* 文章标题 */}
+                  <h2 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2 flex-1">{post.title}</h2>
+
+                  {/* 文章摘要 */}
+                  {showSummary && post.summary && (
+                    <p className="text-sm text-gray-600 mb-3 line-clamp-3">{post.summary}</p>
+                  )}
+
+                  {/* 文章元信息 */}
+                  <div className="flex items-center justify-between text-xs text-gray-500 mt-auto">
+                    <div className="flex items-center space-x-2">
+                      {post.category && (
+                        <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded">{post.category}</span>
+                      )}
+                      <time dateTime={post.publishDay}>{post.publishDay}</time>
+                    </div>
+
+                    <div className="flex items-center space-x-2">
+                      {post.readTime && <span>{post.readTime} min</span>}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </Link>
-        </article>
-      ))}
+            </Link>
+          </article>
+        ))}
+      </div>
     </div>
   )
 }
